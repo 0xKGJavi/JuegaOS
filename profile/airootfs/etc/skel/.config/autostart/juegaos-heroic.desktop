@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Set up Epic and GOG
+Exec=/usr/local/bin/juegaos-install-heroic
+TryExec=flatpak
+X-KDE-autostart-after=panel

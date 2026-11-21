@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+rm -f \
+    /etc/systemd/system/graphical.target.wants/juegaos-live-user.service \
+    /etc/systemd/system/juegaos-live-user.service \
+    /etc/sddm.conf.d/10-juegaos-live.conf \
+    /etc/sudoers.d/10-juegaos-live \
+    /usr/local/bin/juegaos-live-user \
+    /usr/local/bin/juegaos-postinstall \
+    /usr/local/share/applications/juegaos-install.desktop \
+    /etc/skel/Desktop/juegaos-install.desktop
+
+for user_home in /home/*; do
+    [[ -d "$user_home/Desktop" ]] && rm -f "$user_home/Desktop/juegaos-install.desktop"
+done

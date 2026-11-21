@@ -1,0 +1,52 @@
+name: Build JuegaOS ISO
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build ISO in an ephemeral Arch Linux container
+        run: |
+          docker run --privileged --rm \
+            --volume "$GITHUB_WORKSPACE:/workspace" \
+            --workdir /workspace \
+            archlinux:base-devel \
+            bash -euo pipefail -c '
+              pacman -Syu --noconfirm archlinux-keyring
+              pacman -S --needed --noconfirm archiso git pacman-contrib sudo
+              useradd --create-home --shell /bin/bash builder
+              printf "builder ALL=(ALL:ALL) NOPASSWD: ALL\n" > /etc/sudoers.d/builder
+              chmod 0440 /etc/sudoers.d/builder
+              chown -R builder:builder /workspace
+              sudo -u builder env \
+                JUEGAOS_AUR_APPROVED=1 \
+                OUTPUT_DIR=/workspace/out \
+                bash build-iso.sh
+            '
+
+      - name: Verify and checksum ISO
+        run: |
+          shopt -s nullglob
+          iso_files=(out/*.iso)
+          if [[ "${#iso_files[@]}" -ne 1 ]]; then
+            echo "Expected exactly one ISO, found ${#iso_files[@]}." >&2
+            exit 1
+          fi
+          sha256sum "${iso_files[0]}" > out/SHA256SUMS
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: juegaos-iso
+          path: out/
+          if-no-files-found: error
+          retention-days: 7

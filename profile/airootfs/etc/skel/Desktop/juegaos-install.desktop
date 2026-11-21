@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Install JuegaOS
+Comment=Install JuegaOS on this computer
+Exec=sudo calamares
+Icon=system-software-install
+Terminal=false
+Categories=System;

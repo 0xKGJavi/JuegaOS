@@ -1,0 +1,11 @@
+[Unit]
+Description=Create the temporary JuegaOS live-session user
+Before=sddm.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/juegaos-live-user
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical.target

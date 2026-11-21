@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+autostart_file="$HOME/.config/autostart/juegaos-heroic.desktop"
+
+if ! flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo; then
+    kdialog --title "JuegaOS" --error "No se pudo configurar Flathub. Comprueba la conexion y vuelve a iniciar sesion."
+    exit 1
+fi
+
+if ! flatpak install --user --noninteractive flathub com.heroicgameslauncher.hgl; then
+    kdialog --title "JuegaOS" --error "No se pudo instalar Heroic. Comprueba la conexion; el asistente volvera a intentarlo al iniciar sesion."
+    exit 1
+fi
+
+rm -f -- "$autostart_file"
+kdialog --title "JuegaOS" --msgbox "Heroic ya esta instalado. Inicia sesion en Epic o GOG para descargar tus juegos."

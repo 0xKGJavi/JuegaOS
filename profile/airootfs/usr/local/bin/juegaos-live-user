@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! id juegaos-live >/dev/null 2>&1; then
+    useradd --create-home --groups wheel,audio,video,storage --shell /bin/bash juegaos-live
+fi
+
+passwd --delete juegaos-live
+rm -f \
+    /home/juegaos-live/.config/autostart/juegaos-steam.desktop \
+    /home/juegaos-live/.config/autostart/juegaos-heroic.desktop

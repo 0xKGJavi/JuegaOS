@@ -58,6 +58,12 @@ bash build-iso.sh
 4. En VirtualBox, monta la ISO en una máquina virtual. No la instales en el
    disco físico de tu PC.
 
+También puedes crear una release publicada con una etiqueta como `v1.0` o
+`v2.3`. GitHub Actions compilará el commit de esa release y adjuntará la ISO y
+`SHA256SUMS` directamente a la página de la release. Se aceptan solo etiquetas
+con el formato exacto `vN.N` (números a ambos lados del punto); una etiqueta
+con otro formato fallará en la validación antes de iniciar la compilación.
+
 GitHub Actions compila el paquete Calamares disponible en AUR en ese momento.
 Usa un runner temporal y no instala nada en tu PC. La disponibilidad depende
 de los límites de Actions y del espacio de almacenamiento de artefactos de tu

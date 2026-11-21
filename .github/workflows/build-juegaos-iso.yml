@@ -2,9 +2,11 @@ name: Build JuegaOS ISO
 
 on:
   workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -13,6 +15,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Validate release tag
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must match vX.X using numbers, for example v1.0." >&2
+            exit 1
+          fi
 
       - name: Build ISO in an ephemeral Arch Linux container
         run: |
@@ -50,3 +62,9 @@ jobs:
           path: out/
           if-no-files-found: error
           retention-days: 7
+
+      - name: Attach ISO to the GitHub release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" out/*.iso out/SHA256SUMS --clobber

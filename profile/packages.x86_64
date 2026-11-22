@@ -31,7 +31,6 @@ wine-gecko
 wine-mono
 winetricks
 virtualbox-guest-utils
-xf86-video-vmware
 pipewire
 pipewire-alsa
 pipewire-pulse

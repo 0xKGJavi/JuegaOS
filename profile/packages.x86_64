@@ -6,6 +6,7 @@ mkinitcpio-archiso
 calamares
 grub
 efibootmgr
+syslinux
 networkmanager
 sddm
 plasma-meta

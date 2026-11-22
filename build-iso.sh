@@ -74,9 +74,9 @@ fi
 )
 
 shopt -s nullglob
-CALAMARES_PACKAGES=("$CALAMARES_DIR"/*.pkg.tar.zst)
+CALAMARES_PACKAGES=("$CALAMARES_DIR"/calamares-[0-9]*.pkg.tar.zst)
 shopt -u nullglob
-[[ "${#CALAMARES_PACKAGES[@]}" -eq 1 ]] || fail "Se esperaba exactamente un paquete compilado de Calamares."
+[[ "${#CALAMARES_PACKAGES[@]}" -eq 1 ]] || fail "Se esperaba exactamente un paquete de Calamares; revisa el resultado de makepkg."
 repo-add "$LOCAL_REPO/juegaos-local.db.tar.gz" "${CALAMARES_PACKAGES[0]}"
 
 cat >> "$PROFILE_DIR/pacman.conf" <<EOF

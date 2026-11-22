@@ -52,9 +52,10 @@ bash build-iso.sh
 
 1. Publica este proyecto en un repositorio público independiente llamado
    `0xKGJavi/JuegaOS`.
-2. Ejecuta `build-iso.bat`; abrirá directamente las Actions del repositorio.
-3. Abre **Build JuegaOS ISO → Run workflow**. Cuando termine, descarga `juegaos-iso` de esa
-   ejecución; incluye la ISO y `SHA256SUMS`, y se conserva durante siete días.
+2. Ejecuta `build-iso.bat`; iniciará la compilación remota y esperará su
+   finalización. Necesitas tener iniciada sesión en GitHub mediante Git.
+3. La ISO y `SHA256SUMS` se descargarán automáticamente en `out\` junto al
+   `.bat`. El script verifica el SHA-256 antes de informar que terminó.
 4. En VirtualBox, monta la ISO en una máquina virtual. No la instales en el
    disco físico de tu PC.
 
